@@ -1,0 +1,84 @@
+# ===================
+# Project specific
+# ===================
+
+.playwright-mcp/
+references/
+
+# ===================
+# CTF Challenge Files
+# ===================
+
+# Distributed challenge files (binaries, archives)
+**/dist/
+
+# Work directory (temporary files, debug output)
+**/work/
+
+# Common CTF archive types
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.zip
+*.7z
+*.rar
+
+# Binary executables
+*.elf
+*.exe
+*.bin
+*.so
+*.dll
+*.dylib
+
+# ===================
+# Python
+# ===================
+
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.env
+*.egg-info/
+.pytest_cache/
+
+# ===================
+# Build artifacts
+# ===================
+
+*.o
+*.obj
+*.out
+*.a
+*.lib
+core
+core.*
+*.dSYM/
+
+# ===================
+# Editor/IDE
+# ===================
+
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.*.sw?
+\#*\#
+
+# ===================
+# OS generated
+# ===================
+
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
