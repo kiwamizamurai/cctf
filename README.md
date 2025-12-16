@@ -1,14 +1,5 @@
 # CTF Learning Workspace
 
-
-![Ghidra](https://img.shields.io/badge/Ghidra-FF0000?style=flat-square&logo=ghidra&logoColor=white)
-![Wireshark](https://img.shields.io/badge/Wireshark-1679A7?style=flat-square&logo=wireshark&logoColor=white)
-![Burp Suite](https://img.shields.io/badge/Burp_Suite-FF6633?style=flat-square&logo=burpsuite&logoColor=white)
-
-![picoCTF](https://img.shields.io/badge/picoCTF-000000?style=flat-square)
-![HackTheBox](https://img.shields.io/badge/HackTheBox-9FEF00?style=flat-square&logo=hackthebox&logoColor=black)
-![TryHackMe](https://img.shields.io/badge/TryHackMe-212C42?style=flat-square&logo=tryhackme&logoColor=white)
-
 ![PWN](https://img.shields.io/badge/PWN-DC143C?style=flat-square)
 ![Crypto](https://img.shields.io/badge/Crypto-8B5CF6?style=flat-square)
 ![Web](https://img.shields.io/badge/Web-3B82F6?style=flat-square)
