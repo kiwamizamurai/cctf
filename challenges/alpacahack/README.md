@@ -21,10 +21,14 @@ Regularly scheduled competitions. Stored in `contests/YYYY-MM_contest-name/chall
 
 ## Progress
 
-| Event | Solved | Total |
-|-------|--------|-------|
-| Daily | 0 | - |
-| Contests | 0 | - |
+Live progress is tracked by the autonomous harness, not a static table here:
+
+```bash
+python3 -I .claude/skills/ctf-autosolve/scripts/ctf_state.py summary
+python3 -I .claude/skills/ctf-autosolve/scripts/ctf_state.py list --status solved
+```
+
+Each solved challenge keeps its own `README.md` + `solve.py` in its directory.
 
 ## Directory Structure
 
