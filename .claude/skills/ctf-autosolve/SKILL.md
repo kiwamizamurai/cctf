@@ -41,7 +41,12 @@ as `python3 -I $S ...`.
   **`ctf-tool-discovery`**. Write `solve.py` in the challenge dir. **Test locally
   first** when feasible (replicate the service / static analysis / known input),
   then reach the remote only when the flag must come from it. Prefer stdlib +
-  pure-python (see CONDITIONS "frictions").
+  pure-python (see CONDITIONS "frictions"); build throwaway deps with
+  `scripts/mkvenv.sh`.
+- For **client-side / admin-bot** challenges (the flag lives in a victim browser
+  the bot drives), follow `.claude/rules/ctf-autosolve.md` → "Client-side / exfil
+  challenges": validate the technique locally, then use only the operator's
+  declared collector (pause and ask if none is set).
 
 ### 3. Submit & verify
 - Submit via the platform profile's method and confirm it shows SOLVED/accepted.
@@ -49,8 +54,11 @@ as `python3 -I $S ...`.
 
 ### 4. Document & record
 - Write `README.md` per `.claude/rules/writeup-format.md`.
-- `python3 -I $S flag <slug> '<FLAG>'` (records flag + marks solved + ledgers it).
-  Use single quotes; flags contain `$ ! & /` etc.
+- `python3 -I $S flag <slug> '<FLAG>'` (records flag + marks solved + ledgers it;
+  takes an optional `--note "..."`). Use single quotes; flags contain `$ ! & /` etc.
+- Free-text progress notes: `python3 -I $S note <slug> "what was tried/ruled out"`.
+  Structured events only: `python3 -I $S log <event> --slug <slug> --data '<json>'`
+  (`--data` must be valid JSON). In practice `flag --note` + `note` cover most runs.
 - **Do NOT publish a writeup** (or post one to the platform) for an ACTIVE
   challenge/competition.
 

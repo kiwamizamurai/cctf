@@ -80,6 +80,27 @@ Use a backtick template for the flag (some contain `'`, `$`, `(`, `)`), then ver
  :(document.body.innerText.match(/Incorrect|wrong|already/i)||['pending'])[0]
 ```
 
+## Admin-bot / client-side challenges
+
+Some web challenges ship an "admin bot": a service (often `POST /api/report`
+with a JSON `{ "path": "..." }`, rate-limited) that makes a headless browser
+visit `APP_URL + path` while holding the flag in a cookie/token. The flag is
+obtained by getting that browser to send it to a receiver you can read.
+
+General recipe (keep payloads generic; adapt to the sink in the given source):
+
+1. Read the provided source to find the injection sink and whether the flag
+   cookie/token is script-readable (no `httpOnly`).
+2. Build the payload and **validate locally**: run the vulnerable page plus a
+   `localhost` receiver, set a dummy flag cookie, confirm the secret arrives.
+   Watch for input transforms (e.g. splitting on whitespace) that constrain the
+   payload — HTML allows `/` between attributes and quoting to avoid spaces.
+3. For the live bot, exfiltrate **only** to the operator's declared collector
+   (`CONDITIONS.md` → "Exfil collector"); if blank, pause and ask. Then submit
+   the path via the report endpoint and read the flag back from the collector.
+
+See `.claude/rules/ctf-autosolve.md` → "Client-side / exfil challenges".
+
 ## Platform rules (AlpacaHack Daily)
 
 Daily is "Not a Competition" and AI discussion is explicitly welcomed, so solving
