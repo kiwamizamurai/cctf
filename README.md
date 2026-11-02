@@ -11,27 +11,46 @@
 ![CTF Writeups](https://img.shields.io/badge/CTF-Writeups-red?style=flat-square)
 
 
-Workspace for learning CTF (Capture The Flag) challenges.
-Build security skills while having fun solving challenges.
+Workspace for learning CTF (Capture The Flag) challenges, centered on an
+**autonomous solving harness** that works on any CTF/platform. Build security
+skills while having fun solving challenges.
+
+## Autonomous harness (the main event)
+
+A self-driving loop solves challenges end-to-end — recon → solve → submit →
+verify → writeup → record — one at a time, tracking state in a queue + decision
+ledger. Per competition you edit **one file** (`.claude/CONDITIONS.md`) and point
+it at a **platform profile** (`.claude/skills/ctf-autosolve/platforms/<name>.md`;
+AlpacaHack ships as the first). Full docs: **[`HARNESS.md`](./HARNESS.md)**.
+
+**Run it** (two built-in drivers over the `ctf-autosolve` skill):
+
+| You want | Command |
+|----------|---------|
+| Keep solving until done (self-paced loop) | `/loop use the ctf-autosolve skill to solve the next challenge` |
+| Keep going until a goal is met | `/goal <your goal>` (release early with `/goal clear`) |
+| Solve one challenge | invoke the `ctf-autosolve` skill |
+| Progress | `python3 -I .claude/skills/ctf-autosolve/scripts/ctf_state.py summary` |
+
+New event? Copy `platforms/_template.md`, fill it, set `.claude/CONDITIONS.md`,
+then run the loop. The harness obeys each competition's own rules (AI use,
+automation, writeup timing) and only touches authorized, in-scope targets.
 
 ## Quick Start
 
 ```bash
-# Wizard classifies challenge and routes to specialist
+# Wizard classifies the challenge; then invoke the matching specialist skill
 /solve <challenge>
-
-# Direct category commands
-/pwn <binary>               # Binary exploitation
-/web <url>                  # Web vulnerability assessment
-/crypto <file>              # Cryptographic attack
-/rev <binary>               # Reverse engineering
-/forensics <file>           # Forensic analysis
-/misc <file>                # Misc challenges (pyjail, encoding)
 
 # Documentation
 /writeup <challenge-name>   # Generate solution writeup
 /ctftime                    # Find upcoming CTF competitions
 ```
+
+For full automation, drive the `ctf-autosolve` skill with `/loop` or `/goal`
+(see the harness section above / `HARNESS.md`). Per-category work is handled by
+the specialist skills (binary-analysis, crypto-analysis, web-security, pyjail,
+forensics, networking, mobile-security, osint) — no separate commands needed.
 
 ## Output Styles
 
@@ -45,7 +64,7 @@ Build security skills while having fun solving challenges.
 ### Quick Install (All Tools)
 
 ```bash
-# Install most CTF tools automatically (9.2k)
+# Install most CTF tools automatically
 git clone https://github.com/zardus/ctf-tools
 cd ctf-tools && ./manage-tools setup
 ```
@@ -54,36 +73,36 @@ cd ctf-tools && ./manage-tools setup
 
 | Tool | Description | Install |
 |------|-------------|---------|
-| **pwntools** | CTF exploit development framework (13k) | `pip install pwntools` |
+| **pwntools** | CTF exploit development framework | `pip install pwntools` |
 | **checksec** | Binary protection checker | `pip install pwntools` |
-| **ROPgadget** | ROP gadget finder (4.3k) | `pip install ROPgadget` |
-| **one_gadget** | Libc one-shot gadget finder (2.3k) | `gem install one_gadget` |
+| **ROPgadget** | ROP gadget finder | `pip install ROPgadget` |
+| **one_gadget** | Libc one-shot gadget finder | `gem install one_gadget` |
 | **libformatstr** | Format string exploitation | `pip install libformatstr` |
 | **gdb** | Debugger | apt/brew |
-| **pwndbg** | GDB extension (9.7k) | https://github.com/pwndbg/pwndbg |
-| **GEF** | GDB extension (7.9k) | https://github.com/hugsy/gef |
-| **qira** | QEMU runtime analysis (4k) | https://github.com/BinaryAnalysisPlatform/qira |
+| **pwndbg** | GDB extension | https://github.com/pwndbg/pwndbg |
+| **GEF** | GDB extension | https://github.com/hugsy/gef |
+| **qira** | QEMU runtime analysis | https://github.com/BinaryAnalysisPlatform/qira |
 | **Ghidra** | Reverse engineering | https://ghidra-sre.org/ |
 | **IDA Pro/Free** | Disassembler | https://hex-rays.com/ |
-| **radare2** | Reverse engineering (22.7k) | `brew install radare2` |
-| **angr** | Symbolic execution (8.4k) | `pip install angr` |
-| **z3-solver** | SMT solver (11.7k) | `pip install z3-solver` |
-| **Triton** | Dynamic binary analysis (4k) | https://github.com/JonathanSalwan/Triton |
-| **cwe_checker** | Find vulnerable patterns (1.3k) | https://github.com/fkie-cad/cwe_checker |
-| **frida** | Dynamic instrumentation (19k) | `pip install frida-tools` |
+| **radare2** | Reverse engineering | `brew install radare2` |
+| **angr** | Symbolic execution | `pip install angr` |
+| **z3-solver** | SMT solver | `pip install z3-solver` |
+| **Triton** | Dynamic binary analysis | https://github.com/JonathanSalwan/Triton |
+| **cwe_checker** | Find vulnerable patterns | https://github.com/fkie-cad/cwe_checker |
+| **frida** | Dynamic instrumentation | `pip install frida-tools` |
 
 ### Web Security
 
 | Tool | Description | Install |
 |------|-------------|---------|
 | **Burp Suite** | Web proxy | https://portswigger.net/ |
-| **sqlmap** | SQL injection automation (36k) | `pip install sqlmap` |
-| **commix** | OS command injection (5.5k) | https://github.com/commixproject/commix |
+| **sqlmap** | SQL injection automation | `pip install sqlmap` |
+| **commix** | OS command injection | https://github.com/commixproject/commix |
 | **ffuf** | Web fuzzing | `brew install ffuf` |
 | **gobuster** | Directory scanning | `brew install gobuster` |
-| **w3af** | Web vuln scanner (4.8k) | https://github.com/andresriancho/w3af |
-| **Raccoon** | Recon & vuln scanning (3.3k) | `pip install raccoon-scanner` |
-| **dvcs-ripper** | Rip exposed .git/.svn (1.8k) | https://github.com/kost/dvcs-ripper |
+| **w3af** | Web vuln scanner | https://github.com/andresriancho/w3af |
+| **Raccoon** | Recon & vuln scanning | `pip install raccoon-scanner` |
+| **dvcs-ripper** | Rip exposed .git/.svn | https://github.com/kost/dvcs-ripper |
 | **curl** | HTTP client | Built-in |
 | **httpie** | HTTP client (human-friendly) | `pip install httpie` |
 | **requests** | Python HTTP library | `pip install requests` |
@@ -93,17 +112,17 @@ cd ctf-tools && ./manage-tools setup
 
 | Tool | Description | Install |
 |------|-------------|---------|
-| **Ciphey** | Auto-decrypt without knowing key (20k) | `pip install ciphey` |
+| **Ciphey** | Auto-decrypt without knowing key | `pip install ciphey` |
 | **SageMath** | Mathematical crypto analysis | https://www.sagemath.org/ |
 | **gmpy2** | Fast math operations | `pip install gmpy2` |
 | **pycryptodome** | Crypto library | `pip install pycryptodome` |
 | **RsaCtfTool** | RSA attack automation | https://github.com/RsaCtfTool/RsaCtfTool |
-| **xortool** | Multi-byte XOR analysis (1.5k) | `pip install xortool` |
-| **FeatherDuster** | Automated cryptanalysis (1.1k) | https://github.com/nccgroup/feern |
+| **xortool** | Multi-byte XOR analysis | `pip install xortool` |
+| **FeatherDuster** | Automated cryptanalysis | https://github.com/nccgroup/feern |
 | **padding-oracle-attacker** | Padding oracle CLI | `npm i -g padding-oracle-attacker` |
 | **FactorDB** | Factorization database | http://factordb.com/ |
 | **yafu** | Fast factorization | Compile required |
-| **hashcat** | Password cracking (25k) | `brew install hashcat` |
+| **hashcat** | Password cracking | `brew install hashcat` |
 | **john** | Password cracking | `brew install john` |
 
 ### Forensics / Steganography
@@ -133,12 +152,12 @@ cd ctf-tools && ./manage-tools setup
 | **IDA Pro/Free** | Disassembler | https://hex-rays.com/ |
 | **radare2/rizin** | CLI reverser | `brew install radare2` |
 | **Binary Ninja** | Decompiler | https://binary.ninja/ |
-| **jadx** | Java/Android decompiler (46k) | https://github.com/skylot/jadx |
-| **Krakatau** | Java disassembler/decompiler (2.2k) | https://github.com/Storyyeller/Krakatau |
+| **jadx** | Java/Android decompiler | https://github.com/skylot/jadx |
+| **Krakatau** | Java disassembler/decompiler | https://github.com/Storyyeller/Krakatau |
 | **angr** | Symbolic execution | `pip install angr` |
 | **z3** | SMT solver | `pip install z3-solver` |
 | **Frida** | Dynamic instrumentation | `pip install frida-tools` |
-| **objection** | Mobile runtime exploration (8.7k) | `pip install objection` |
+| **objection** | Mobile runtime exploration | `pip install objection` |
 | **objdump** | Disassembly | Built-in |
 | **ltrace/strace** | Library/system call tracing | Built-in |
 | **gdb** | Debugger | Built-in |
@@ -205,11 +224,11 @@ challenges/                      # CTF challenges by platform
 └── ctftime/                     # CTFtime competitions
 
 .claude/                         # Claude Code configuration
-├── agents/                      # wizard, hint-helper
-├── commands/                    # /solve, /pwn, /web, etc.
-├── skills/                      # 9 specialized skills
+├── agents/                      # wizard, hint-helper, ctf-auditor
+├── commands/                    # /solve, /writeup, /ctftime
+├── skills/                      # specialist skills + ctf-autosolve (harness)
 ├── output-styles/               # ctf-focused, ctf-beginner
-└── rules/                       # Guidelines and policies
+└── rules/                       # guidelines, policies, harness rules
 ```
 
 ### Challenge Directory Structure

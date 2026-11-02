@@ -5,6 +5,9 @@
 .playwright-mcp/
 references/
 
+# Autonomous harness runtime state (queue, decision ledger, autopilot flag)
+.claude/state/ctf/
+
 # ===================
 # CTF Challenge Files
 # ===================

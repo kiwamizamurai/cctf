@@ -11,9 +11,9 @@ CTF (Capture The Flag) learning workspace. Solve challenges from picoCTF, CTFlea
 Follow this pattern for each challenge:
 
 ```
-1. Classify → Use `wizard` agent to identify challenge type
-2. Analyze  → Spawn specialist agent for the category
-3. Exploit  → Develop and test solution locally
+1. Classify → Use the `wizard` agent to identify the challenge type
+2. Analyze  → Invoke the matching specialist skill for the category
+3. Exploit  → Develop and test the solution locally
 4. Capture  → Test against remote, extract flag
 5. Document → Generate writeup with /writeup
 ```
@@ -21,37 +21,40 @@ Follow this pattern for each challenge:
 ### Quick Start
 
 ```bash
-/solve <challenge>          # Wizard classifies, then routes to specialist
-/pwn <binary>               # Direct binary exploitation
-/web <url>                  # Direct web vulnerability assessment
-/crypto <file>              # Direct cryptographic attack
-/rev <binary>               # Direct reverse engineering
-/forensics <file>           # Direct forensic analysis
-/misc <file>                # Direct misc challenge
+/solve <challenge>          # Wizard classifies, then you invoke the matching skill
 /writeup <challenge-name>   # Generate solution writeup
 /ctftime                    # Find upcoming CTF competitions
 ```
+
+For an end-to-end autonomous run, drive the `ctf-autosolve` skill with `/loop`
+or `/goal` (see `HARNESS.md`). To work a single category by hand, let `wizard`
+classify (or just pick) and invoke the matching skill directly.
 
 ### Extended Thinking
 
 Use these keywords for deeper analysis:
 - `ultrathink` - Heap exploitation, multi-step attacks
 
-## Agent Routing
+## Category Routing
 
-The `wizard` agent is the entry point for challenge classification:
+The `wizard` agent is the entry point: it classifies the challenge, then you
+invoke the matching **skill** (via the Skill tool) to solve it. There are no
+`*-expert` agents — the specialists are the skills below.
 
-| Category | Agent | Skill | Indicators |
-|----------|-------|-------|------------|
-| pwn | pwn-expert | binary-analysis | ELF + remote service, dangerous funcs |
-| rev | rev-expert | binary-analysis | Binary asking for key/serial, no remote |
-| web | web-expert | web-security | URL, HTTP service, web source code |
-| crypto | crypto-expert | crypto-analysis | Large numbers (n,e,c), ciphertext |
-| forensics | forensics-expert | forensics | Images, memory dumps, disk images |
-| misc | misc-expert | pyjail | Python jail, encoding puzzles |
-| osint | osint-expert | osint | Username search, geolocation |
-| mobile | mobile-expert | mobile-security | APK/IPA files |
-| networking | networking-expert | networking | PCAP files, traffic analysis |
+| Category | Skill | Indicators |
+|----------|-------|------------|
+| pwn | binary-analysis | ELF + remote service, dangerous funcs |
+| rev | binary-analysis | Binary asking for key/serial, no remote |
+| web | web-security | URL, HTTP service, web source code |
+| crypto | crypto-analysis | Large numbers (n,e,c), ciphertext |
+| forensics | forensics | Images, memory dumps, disk images |
+| misc | pyjail | Python jail, encoding puzzles |
+| osint | osint | Username search, geolocation |
+| mobile | mobile-security | APK/IPA files |
+| networking | networking | PCAP files, traffic analysis |
+
+For an end-to-end autonomous run (recon → solve → submit → writeup → record),
+use the `ctf-autosolve` skill / `/ctf-auto` instead (see `HARNESS.md`).
 
 ## Directory Structure
 

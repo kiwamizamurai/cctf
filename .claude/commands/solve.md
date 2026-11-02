@@ -16,22 +16,23 @@ File types:
 
 ## Task
 
-1. **First, spawn `wizard` agent** to classify the challenge
-2. Based on wizard's classification, spawn the appropriate specialist agent
+1. **First, spawn the `wizard` agent** to classify the challenge
+2. Based on the wizard's classification, invoke the matching specialist **skill**
+   (via the Skill tool)
 3. Solve the challenge and capture the flag
 
-## Agent Routing
+## Category Routing (classification → skill)
 
-| Category | Agent | Skill |
-|----------|-------|-------|
-| pwn | pwn-expert | binary-analysis |
-| rev | rev-expert | binary-analysis |
-| web | web-expert | web-security |
-| crypto | crypto-expert | crypto-analysis |
-| forensics | forensics-expert | forensics |
-| networking | networking-expert | networking |
-| mobile | mobile-expert | mobile-security |
-| osint | osint-expert | osint |
-| misc | misc-expert | pyjail |
+| Category | Skill |
+|----------|-------|
+| pwn | binary-analysis |
+| rev | binary-analysis |
+| web | web-security |
+| crypto | crypto-analysis |
+| forensics | forensics |
+| networking | networking |
+| mobile | mobile-security |
+| osint | osint |
+| misc | pyjail |
 
 Flag format: varies by platform (e.g., `flag{...}`, `picoCTF{...}`, `HTB{...}`)
