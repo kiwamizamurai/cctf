@@ -37,10 +37,11 @@ as `python3 -I $S ...`.
 ### 2. Analyze → exploit → capture
 - Classify and use the matching specialist skill (binary-analysis,
   crypto-analysis, web-security, pyjail, forensics, networking, mobile-security,
-  osint). Write `solve.py` in the challenge dir. **Test locally first** when
-  feasible (replicate the service / static analysis / known input), then reach
-  the remote only when the flag must come from it. Prefer stdlib + pure-python
-  (see CONDITIONS "frictions").
+  osint). If you don't know what tool/library handles the artifact, use
+  **`ctf-tool-discovery`**. Write `solve.py` in the challenge dir. **Test locally
+  first** when feasible (replicate the service / static analysis / known input),
+  then reach the remote only when the flag must come from it. Prefer stdlib +
+  pure-python (see CONDITIONS "frictions").
 
 ### 3. Submit & verify
 - Submit via the platform profile's method and confirm it shows SOLVED/accepted.
@@ -54,6 +55,9 @@ as `python3 -I $S ...`.
   challenge/competition.
 
 ### 5. Stuck path
+- Climb the ladder first: **`ctf-get-unstuck`** (reframe / lateral / learn from
+  top players, EN+JA), and **`ctf-writeup-mining`** for the technique (the exact
+  challenge's writeup only if ENDED).
 - Record why (`python3 -I $S note <slug> "tried X, ruled out Y, blocked by Z"`),
   `python3 -I $S status <slug> stuck`, then invoke the **ctf-auditor** agent with
   this slug. Apply its top 1–2 ideas, retry once; still stuck → leave `stuck`,

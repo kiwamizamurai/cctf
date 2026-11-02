@@ -54,7 +54,7 @@ invoke the matching **skill** (via the Skill tool) to solve it. There are no
 | networking | networking | PCAP files, traffic analysis |
 
 For an end-to-end autonomous run (recon → solve → submit → writeup → record),
-use the `ctf-autosolve` skill / `/ctf-auto` instead (see `HARNESS.md`).
+use the `ctf-autosolve` skill, driven by `/loop` or `/goal` (see `HARNESS.md`).
 
 ## Directory Structure
 
@@ -129,5 +129,7 @@ CTF{...}      - Generic CTF
 ## Notes
 
 - Skills (`.claude/skills/`) contain detailed tool references and attack patterns
-- README.md has comprehensive tool installation and cheatsheets
+- When you don't know what to run, use the `ctf-tool-discovery` skill; when stuck,
+  `ctf-get-unstuck`; to learn from prior writeups, `ctf-writeup-mining`
+- README.md explains the autonomous harness (see `HARNESS.md`)
 - All activities for educational purposes on authorized platforms only

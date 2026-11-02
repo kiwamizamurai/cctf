@@ -44,7 +44,10 @@ and pick the most recent.
 ## Output (return to the caller)
 - One line: the single most likely overlooked lead.
 - A ranked list (max 4) of concrete next steps, each one action the solver can
-  take immediately, with the reason.
+  take immediately, with the reason. Where useful, point the solver at a skill:
+  `ctf-get-unstuck` (reframe / lateral ideas), `ctf-tool-discovery` (unfamiliar
+  artifact/tool), or `ctf-writeup-mining` (learn the technique; the exact
+  challenge's writeup only if ENDED).
 - If genuinely blocked by environment (needs hardware we lack), say so plainly
   and recommend `stuck` + skip.
 
