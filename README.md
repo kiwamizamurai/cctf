@@ -11,8 +11,31 @@
 ![CTF Writeups](https://img.shields.io/badge/CTF-Writeups-red?style=flat-square)
 
 
-Workspace for learning CTF (Capture The Flag) challenges.
-Build security skills while having fun solving challenges.
+Workspace for learning CTF (Capture The Flag) challenges, centered on an
+**autonomous solving harness** that works on any CTF/platform. Build security
+skills while having fun solving challenges.
+
+## Autonomous harness (the main event)
+
+A self-driving loop solves challenges end-to-end — recon → solve → submit →
+verify → writeup → record — one at a time, tracking state in a queue + decision
+ledger. Per competition you edit **one file** (`.claude/CONDITIONS.md`) and point
+it at a **platform profile** (`.claude/skills/ctf-autosolve/platforms/<name>.md`;
+AlpacaHack ships as the first). Full docs: **[`HARNESS.md`](./HARNESS.md)**.
+
+**Run it:**
+
+| You want | Command |
+|----------|---------|
+| Keep solving until done | `/loop /ctf-auto` |
+| Solve one challenge | `/ctf-auto` |
+| Goal-driven autopilot | `/ctf-auto on`, then `/goal <your goal>` |
+| Stop | `/ctf-auto off` and/or `/goal clear` |
+| Progress | `/ctf-auto status` |
+
+New event? Copy `platforms/_template.md`, fill it, set `.claude/CONDITIONS.md`,
+then `/loop /ctf-auto`. The harness obeys each competition's own rules (AI use,
+automation, writeup timing) and only touches authorized, in-scope targets.
 
 ## Quick Start
 

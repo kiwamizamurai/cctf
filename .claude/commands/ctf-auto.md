@@ -33,5 +33,5 @@ Argument: `$ARGUMENTS`
 Always read `.claude/CONDITIONS.md` and obey `.claude/rules/ctf-autosolve.md`.
 Recommended drivers:
 - `/loop /ctf-auto` — run iterations back-to-back, self-paced.
-- `/ctf-auto on` then `/goal solve every ended AlpacaHack Daily challenge` —
-  autopilot with the Stop hook enforcing continuation.
+- `/ctf-auto on` then `/goal <the run's goal from CONDITIONS.md>` — autopilot
+  with the Stop hook enforcing continuation (release early with `/goal clear`).

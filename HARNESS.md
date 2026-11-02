@@ -1,34 +1,62 @@
 # Autonomous CTF-solving harness
 
-A self-driving loop for the AlpacaHack Daily track, built from this workspace's
-own solving experience and the stall-audit / externalized-conditions patterns
-from the ISUCON 2026 autonomous-agent writeup.
+A self-driving loop that solves CTF challenges end-to-end — recon → solve →
+submit → verify → writeup → record — one at a time, on **any CTF/platform**.
+Built from this workspace's solving experience and the stall-audit /
+externalized-conditions patterns from the ISUCON 2026 autonomous-agent writeup.
+
+Per competition you edit **one file** (`.claude/CONDITIONS.md`) and point it at a
+**platform profile** (`.claude/skills/ctf-autosolve/platforms/<name>.md`).
+AlpacaHack ships as the first profile.
+
+## Usage — how to run it
+
+Pick a driver (all re-invoke the `ctf-autosolve` skill, one challenge per step):
+
+| You want | Command |
+|----------|---------|
+| **Keep solving until done** (self-paced loop) | `/loop /ctf-auto` |
+| **Solve one challenge** (single step) | `/ctf-auto` |
+| **Goal-driven autopilot** (continue until the queue is empty) | `/ctf-auto on`, then `/goal <your goal>` |
+| **Stop the autopilot** | `/ctf-auto off` and/or `/goal clear` |
+| **Check progress** | `/ctf-auto status` |
+
+- **`/loop /ctf-auto`** is the simplest: it runs iterations back-to-back and
+  stops when the queue is empty (or you stop the loop).
+- **`/goal`** keeps the turn going via a Stop hook. On its own, `/goal <text>`
+  nudges until the condition reads as met; with the optional budget-bounded Stop
+  hook below (`/ctf-auto on` writes an iteration budget), it stops automatically
+  when `remaining == 0` or the budget is spent. Release a goal early with
+  `/goal clear`.
+- `/ctf-auto` without an arg = one iteration; `on`/`off`/`status` manage autopilot.
+
+### Onboard a new CTF (do this once per event)
+
+1. Copy `platforms/_template.md` → `platforms/<name>.md` and fill it (how to
+   enumerate, fetch, reach the remote, submit, and the event's rules).
+2. Edit `.claude/CONDITIONS.md`: set the event, flag format, auth, goal, scope,
+   and point `Platform profile` at your new file.
+3. Enumerate the challenges into the queue (profile → "Enumerate"), then drive
+   with `/loop /ctf-auto` (or `/ctf-auto on` + `/goal …`).
+
+> **Rules first.** Every event differs — some forbid AI/automation, all forbid
+> sharing solutions while a challenge is still running. The harness reads the
+> competition's rules from the profile/CONDITIONS and stops if they forbid what
+> it does. It only touches authorized, in-scope targets.
 
 ## Components (all created, no approval needed)
 
 | File | Role |
 |------|------|
-| `.claude/CONDITIONS.md` | Externalized run conditions: target, guardrails, budget, known frictions. Edit this to retarget a run; the loop reads it first. |
+| `.claude/CONDITIONS.md` | The **active run**: event, flag format, auth, scope, budget, and which platform profile to use. Edit this per competition; the loop reads it first. |
+| `.claude/skills/ctf-autosolve/platforms/<name>.md` | **Platform profile** — the concrete *how* for one platform (enumerate, fetch, reach-remote, submit, rules). `alpacahack.md` ships; `_template.md` onboards a new one. |
 | `.claude/rules/ctf-autosolve.md` | Operating rules for autonomous runs (one-at-a-time, local-first, ledger discipline, injection resistance, stall handling, publishing boundary). |
-| `.claude/skills/ctf-autosolve/SKILL.md` | The **one-iteration** solver procedure (recon → solve → submit → verify → README → record). |
-| `.claude/skills/ctf-autosolve/reference/workflow.md` | Proven Chrome/JS snippets: month enumeration, page reading, server spawn, download, submit, environment tactics. |
+| `.claude/skills/ctf-autosolve/SKILL.md` | The platform-agnostic **one-iteration** solver procedure (recon → solve → submit → verify → README → record). |
+| `.claude/skills/ctf-autosolve/reference/workflow.md` | Generic techniques & environment frictions (platform-specifics live in the profile). |
 | `.claude/skills/ctf-autosolve/scripts/ctf_state.py` | State backbone: `queue.json` (status per challenge) + `ledger.ndjson` (append-only decision log). |
 | `.claude/commands/ctf-auto.md` | `/ctf-auto [on\|off\|status\|run]` driver. |
 | `.claude/agents/ctf-auditor.md` | Checklist-based stall-audit subagent for `stuck` challenges. |
-| `.claude/state/ctf/` | Runtime state (git-ignored). Seeded with this session's 19 solves + the September queue. |
-
-## How to run
-
-- **Self-paced loop (recommended):** `/loop /ctf-auto` — runs iterations
-  back-to-back; each solves one challenge and updates the queue. Stop with the
-  loop's own control.
-- **Single step:** `/ctf-auto` — solve exactly one challenge (the next `todo`).
-- **Goal-driven autopilot:** `/ctf-auto on` then
-  `/goal solve every ended AlpacaHack Daily challenge`. The `/goal` Stop hook
-  keeps the turn going until the queue is empty (see optional Stop hook below
-  for a budget-bounded variant).
-- **Check progress:** `/ctf-auto status` or
-  `python3 -I .claude/skills/ctf-autosolve/scripts/ctf_state.py summary`.
+| `.claude/state/ctf/` | Runtime state (git-ignored): the queue + decision ledger + autopilot flag. |
 
 ## State tool quick reference
 

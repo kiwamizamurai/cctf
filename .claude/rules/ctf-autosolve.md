@@ -6,11 +6,14 @@ These rules govern the self-driving loop (`/ctf-auto`, `/loop /ctf-auto`, or a
 
 ## The loop (one iteration = one challenge)
 
-Follow `.claude/skills/ctf-autosolve/SKILL.md`. In short:
+Follow `.claude/skills/ctf-autosolve/SKILL.md`, using the active run config
+(`.claude/CONDITIONS.md`) and the platform profile it names
+(`.claude/skills/ctf-autosolve/platforms/<name>.md`). In short:
 
 1. **Pick** the next `todo` from the state queue (`ctf_state next`), oldest-first.
-2. **Recon**: open the challenge page in Chrome, read the prompt, download the
-   distributed files into `challenges/<platform>/daily/<date>_<slug>/dist/`.
+2. **Recon**: open the challenge (per the platform profile), read the prompt,
+   download the distributed files into
+   `challenges/<platform>/<event>/<id>_<slug>/dist/`.
 3. **Analyze → Exploit → Capture**: classify, develop a solver (`solve.py`),
    test locally first, spawn the remote only when needed, extract the flag.
 4. **Submit** via the site form and **verify** it shows SOLVED.
