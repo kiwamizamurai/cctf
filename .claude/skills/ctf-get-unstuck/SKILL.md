@@ -11,6 +11,12 @@ produces a concrete next step. Record each hypothesis you try (and why you
 dropped it) with `ctf_state note <slug> "..."` so the ledger stays honest and
 `ctf-auditor` can build on it.
 
+**Read `reference/mindset.md` first** — how strong CTF players actually think
+(understand the system deeply; find the essence, ignore distractors; every
+oddity exists for a reason; assume nothing, verify everything; decompose →
+hypothesize → iterate fast; root-cause + variant; widen the angle when the plan
+turns monstrous). The ladder below is that mindset applied.
+
 ## The ladder
 
 **0. Re-read everything, slowly.** The prompt and **every** distributed file
