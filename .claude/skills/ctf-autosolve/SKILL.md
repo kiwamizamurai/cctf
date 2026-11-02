@@ -1,6 +1,6 @@
 ---
 name: ctf-autosolve
-description: Autonomous one-iteration CTF solver for any CTF/platform via the harness. Use when driving a self-paced loop (/ctf-auto, /loop /ctf-auto) or a /goal run to solve challenges one at a time, tracking state in a queue + ledger. Reads the active run config (.claude/CONDITIONS.md) and its platform profile, picks the next unsolved challenge, recons it, downloads and analyzes the distribution, develops and tests a solver, submits and verifies the flag, writes the README, and records the result.
+description: Autonomous one-iteration CTF solver for any CTF/platform via the harness. Use when driving a self-paced loop (a /loop over this skill) or a /goal run to solve challenges one at a time, tracking state in a queue + ledger. Reads the active run config (.claude/CONDITIONS.md) and its platform profile, picks the next unsolved challenge, recons it, downloads and analyzes the distribution, develops and tests a solver, submits and verifies the flag, writes the README, and records the result.
 ---
 
 # ctf-autosolve — one autonomous iteration (platform-agnostic)
@@ -61,8 +61,8 @@ as `python3 -I $S ...`.
 
 ### 6. Hand back
 - One short line: solved `<slug>` → `<flag>` (or stuck + reason), then
-  `python3 -I $S summary`. The loop driver (/ctf-auto, /loop, or /goal + Stop
-  hook) decides whether to continue.
+  `python3 -I $S summary`. The loop driver (`/loop` or `/goal`) decides whether
+  to continue.
 
 ## What this skill does NOT do
 - It does not enter credentials, delete data, or touch out-of-scope hosts.

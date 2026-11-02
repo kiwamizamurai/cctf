@@ -1,7 +1,7 @@
 # Autonomous CTF solving — operating rules
 
-These rules govern the self-driving loop (`/ctf-auto`, `/loop /ctf-auto`, or a
-`/goal`-driven run). They complement, and never override,
+These rules govern the self-driving loop (a `/loop` over the `ctf-autosolve`
+skill, or a `/goal`-driven run). They complement, and never override,
 `.claude/rules/ctf-learning-rules.md` and `.claude/rules/exploit-guidelines.md`.
 
 ## The loop (one iteration = one challenge)

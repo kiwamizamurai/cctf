@@ -23,18 +23,17 @@ ledger. Per competition you edit **one file** (`.claude/CONDITIONS.md`) and poin
 it at a **platform profile** (`.claude/skills/ctf-autosolve/platforms/<name>.md`;
 AlpacaHack ships as the first). Full docs: **[`HARNESS.md`](./HARNESS.md)**.
 
-**Run it:**
+**Run it** (two built-in drivers over the `ctf-autosolve` skill):
 
 | You want | Command |
 |----------|---------|
-| Keep solving until done | `/loop /ctf-auto` |
-| Solve one challenge | `/ctf-auto` |
-| Goal-driven autopilot | `/ctf-auto on`, then `/goal <your goal>` |
-| Stop | `/ctf-auto off` and/or `/goal clear` |
-| Progress | `/ctf-auto status` |
+| Keep solving until done (self-paced loop) | `/loop use the ctf-autosolve skill to solve the next challenge` |
+| Keep going until a goal is met | `/goal <your goal>` (release early with `/goal clear`) |
+| Solve one challenge | invoke the `ctf-autosolve` skill |
+| Progress | `python3 -I .claude/skills/ctf-autosolve/scripts/ctf_state.py summary` |
 
 New event? Copy `platforms/_template.md`, fill it, set `.claude/CONDITIONS.md`,
-then `/loop /ctf-auto`. The harness obeys each competition's own rules (AI use,
+then run the loop. The harness obeys each competition's own rules (AI use,
 automation, writeup timing) and only touches authorized, in-scope targets.
 
 ## Quick Start

@@ -11,24 +11,22 @@ AlpacaHack ships as the first profile.
 
 ## Usage — how to run it
 
-Pick a driver (all re-invoke the `ctf-autosolve` skill, one challenge per step):
+The core is the **`ctf-autosolve` skill** (one challenge per invocation) plus the
+**`ctf_state.py`** state tool. Two built-in drivers re-invoke the skill — there is
+no extra command to learn:
 
-| You want | Command |
-|----------|---------|
-| **Keep solving until done** (self-paced loop) | `/loop /ctf-auto` |
-| **Solve one challenge** (single step) | `/ctf-auto` |
-| **Goal-driven autopilot** (continue until the queue is empty) | `/ctf-auto on`, then `/goal <your goal>` |
-| **Stop the autopilot** | `/ctf-auto off` and/or `/goal clear` |
-| **Check progress** | `/ctf-auto status` |
+| You want | How |
+|----------|-----|
+| **Keep solving until done** (self-paced loop) | `/loop use the ctf-autosolve skill to solve the next challenge` |
+| **Keep going until a goal is met** | `/goal <your goal>` — the Stop hook nudges until it reads as met; release early with `/goal clear` |
+| **Solve one challenge** (single step) | invoke the `ctf-autosolve` skill directly |
+| **Check progress** | `python3 -I .claude/skills/ctf-autosolve/scripts/ctf_state.py summary` |
 
-- **`/loop /ctf-auto`** is the simplest: it runs iterations back-to-back and
-  stops when the queue is empty (or you stop the loop).
-- **`/goal`** keeps the turn going via a Stop hook. On its own, `/goal <text>`
-  nudges until the condition reads as met; with the optional budget-bounded Stop
-  hook below (`/ctf-auto on` writes an iteration budget), it stops automatically
-  when `remaining == 0` or the budget is spent. Release a goal early with
-  `/goal clear`.
-- `/ctf-auto` without an arg = one iteration; `on`/`off`/`status` manage autopilot.
+- **`/loop …`** runs iterations back-to-back; each solves one challenge and
+  updates the queue. It stops when the queue is empty (`remaining == 0`) or you
+  stop the loop.
+- **`/goal …`** persists across turns via the Stop hook; the model keeps invoking
+  the skill until the goal reads as met. `/goal clear` releases it.
 
 ### Onboard a new CTF (do this once per event)
 
@@ -37,7 +35,7 @@ Pick a driver (all re-invoke the `ctf-autosolve` skill, one challenge per step):
 2. Edit `.claude/CONDITIONS.md`: set the event, flag format, auth, goal, scope,
    and point `Platform profile` at your new file.
 3. Enumerate the challenges into the queue (profile → "Enumerate"), then drive
-   with `/loop /ctf-auto` (or `/ctf-auto on` + `/goal …`).
+   with `/loop …` (or `/goal …`).
 
 > **Rules first.** Every event differs — some forbid AI/automation, all forbid
 > sharing solutions while a challenge is still running. The harness reads the
@@ -54,9 +52,8 @@ Pick a driver (all re-invoke the `ctf-autosolve` skill, one challenge per step):
 | `.claude/skills/ctf-autosolve/SKILL.md` | The platform-agnostic **one-iteration** solver procedure (recon → solve → submit → verify → README → record). |
 | `.claude/skills/ctf-autosolve/reference/workflow.md` | Generic techniques & environment frictions (platform-specifics live in the profile). |
 | `.claude/skills/ctf-autosolve/scripts/ctf_state.py` | State backbone: `queue.json` (status per challenge) + `ledger.ndjson` (append-only decision log). |
-| `.claude/commands/ctf-auto.md` | `/ctf-auto [on\|off\|status\|run]` driver. |
 | `.claude/agents/ctf-auditor.md` | Checklist-based stall-audit subagent for `stuck` challenges. |
-| `.claude/state/ctf/` | Runtime state (git-ignored): the queue + decision ledger + autopilot flag. |
+| `.claude/state/ctf/` | Runtime state (git-ignored): the queue + decision ledger. |
 
 ## State tool quick reference
 
@@ -118,38 +115,6 @@ if [ -n "$FLAG" ] && [ -f "$CLAUDE_PROJECT_DIR/.claude/skills/ctf-autosolve/scri
 fi
 ```
 
-### 3. Add `.claude/hooks/ctf-stop.sh` (budget-bounded autopilot + stall audit)
-
-Only engages when `.claude/state/ctf/AUTOPILOT` exists (so it is opt-in via
-`/ctf-auto on`). It keeps the loop going until the queue is empty or the budget
-is spent, and nudges a stall audit when progress stops.
-
-```bash
-#!/bin/bash
-# Stop hook: continue the autopilot loop until the queue is empty / budget spent.
-DIR="$CLAUDE_PROJECT_DIR/.claude/state/ctf"; AP="$DIR/AUTOPILOT"
-[ -f "$AP" ] || exit 0                      # autopilot off -> allow stop
-S="$CLAUDE_PROJECT_DIR/.claude/skills/ctf-autosolve/scripts/ctf_state.py"
-REMAIN=$(python3 -I "$S" summary 2>/dev/null | python3 -c 'import sys,json;print(json.load(sys.stdin).get("remaining",0))' 2>/dev/null || echo 0)
-MAXIT=$(python3 -c 'import json;print(json.load(open("'"$AP"'")).get("max_iterations",20))' 2>/dev/null || echo 20)
-N=$(cat "$DIR/iter" 2>/dev/null || echo 0); N=$((N+1)); echo "$N" > "$DIR/iter"
-if [ "$REMAIN" -le 0 ] || [ "$N" -gt "$MAXIT" ]; then
-  rm -f "$AP" "$DIR/iter"
-  exit 0                                     # done or out of budget -> allow stop
-fi
-printf '{"decision":"block","reason":"Autopilot: %s challenge(s) remain (iter %s/%s). Run the next /ctf-auto iteration via the ctf-autosolve skill. If the last one is stuck, invoke the ctf-auditor agent first."}\n' "$REMAIN" "$N" "$MAXIT"
-exit 0
-```
-
-### 4. Wire the Stop hook in `.claude/settings.json`
-
-Add to the `hooks` object:
-
-```json
-"Stop": [
-  { "hooks": [ { "type": "command",
-      "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/ctf-stop.sh", "timeout": 10 } ] }
-]
-```
-
-`chmod +x` the two new/edited scripts after creating them.
+`chmod +x .claude/hooks/pre-bash.sh` after editing it. Both hooks are optional
+conveniences; the loop (`/loop …`) and `/goal` work without them. (Driving the
+loop uses the built-in `/loop` and `/goal` — there is no custom Stop hook.)
