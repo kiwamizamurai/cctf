@@ -60,16 +60,3 @@ model* behind the ladder in `SKILL.md` — not a checklist, a way of seeing.
   new result. Building an elaborate contraption instead of questioning the
   premise. Refusing to look things up out of pride — using search/AI/writeups to
   get unstuck is how top players learn, not cheating.
-
-## Where this comes from
-Distilled from the reasoning patterns that recur across top international CTF
-practitioners' public material — not one article but the common thread:
-- **Methodology authors**: LiveOverflow ("understand the system, don't follow
-  steps"), Gynvael Coldwind (structured problem-solving), Google Project Zero
-  (root-cause + variant analysis).
-- **Top-team writeups** (via CTFtime's writeups feed + the top-rated teams,
-  e.g. big events like UIUCTF, SECCON, Google CTF, PlaidCTF, DEF CON CTF):
-  strong writeups narrate the *reasoning and dead-ends*, not just the final
-  payload — read for the mental model, then re-derive it yourself (see
-  `ctf-writeup-mining`). Browse ratings at https://ctftime.org/stats/ and
-  writeups at https://ctftime.org/writeups .
