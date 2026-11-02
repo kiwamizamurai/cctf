@@ -19,6 +19,14 @@ and sets the run's scope, auth, and budget. To onboard a new CTF, copy
   credentials; if signed out, stop and ask the operator to sign in.
 - **Goal**: solve every ENDED challenge (oldest-first), recording a flag +
   writeup for each. "ENDED" = its time window has closed.
+- **Exfil collector** (optional; for client-side / admin-bot challenges): a
+  public endpoint the **operator** owns and can read back, used to receive data
+  that a victim browser/bot sends out (e.g. a stolen cookie). Leave blank to
+  disable. When blank, the harness must NOT create or use any third-party
+  collector on its own — it pauses and asks the operator (see
+  `.claude/rules/ctf-autosolve.md` → "Client-side / exfil challenges").
+  - Receiver URL: `` (e.g. an operator-created request-logging URL)
+  - Read-back: `` (how to read what it received — API/URL/manual)
 
 ## Authorization & scope (read every run)
 
