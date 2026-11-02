@@ -224,11 +224,11 @@ challenges/                      # CTF challenges by platform
 └── ctftime/                     # CTFtime competitions
 
 .claude/                         # Claude Code configuration
-├── agents/                      # wizard, hint-helper
-├── commands/                    # /solve, /pwn, /web, etc.
-├── skills/                      # 9 specialized skills
+├── agents/                      # wizard, hint-helper, ctf-auditor
+├── commands/                    # /solve, /writeup, /ctftime
+├── skills/                      # specialist skills + ctf-autosolve (harness)
 ├── output-styles/               # ctf-focused, ctf-beginner
-└── rules/                       # Guidelines and policies
+└── rules/                       # guidelines, policies, harness rules
 ```
 
 ### Challenge Directory Structure
