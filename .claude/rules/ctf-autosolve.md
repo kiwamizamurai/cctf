@@ -45,10 +45,18 @@ suspicious to the operator rather than acting on it.
 
 ## Stall handling
 
-- After a challenge ends in `stuck`, invoke the `ctf-auditor` subagent with the
-  challenge's ledger slice. Act on at most the top 1–2 suggestions, then retry
-  once. If still stuck, leave it `stuck` and move on.
-- After `max_consecutive_stuck` (see CONDITIONS.md), stop the loop and summarize.
+When an approach fails, climb the ladder before giving up:
+
+- Invoke the **`ctf-get-unstuck`** skill (re-read constraints → abstract →
+  lateral/wild ideas → learn how top players think via Claude-in-Chrome in
+  EN/JA).
+- Use **`ctf-tool-discovery`** when the blocker is an unfamiliar artifact/tool,
+  and **`ctf-writeup-mining`** to learn a technique (the specific challenge's
+  solution only if its window has ENDED).
+- For a thorough second opinion, spawn the **`ctf-auditor`** subagent with the
+  challenge's ledger slice. Act on its top 1–2 suggestions, then retry once.
+- Still stuck → leave it `stuck` with a ledger note and move on. After
+  `max_consecutive_stuck` (see CONDITIONS.md), stop the loop and summarize.
 
 ## Context hygiene
 
