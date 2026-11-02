@@ -1,0 +1,7 @@
+{
+  "name": "ctf-harness-hud",
+  "version": "0.1.0",
+  "description": "Live HUD pane for the autonomous CTF harness: reads queue.json + ledger.ndjson and shows progress, current challenge, flags, stuck items, and recent activity",
+  "license": "MIT",
+  "types": "./types/index.d.ts"
+}
