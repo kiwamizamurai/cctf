@@ -21,16 +21,14 @@ Follow this pattern for each challenge:
 ### Quick Start
 
 ```bash
-/solve <challenge>          # Wizard classifies, then routes to specialist
-/pwn <binary>               # Direct binary exploitation
-/web <url>                  # Direct web vulnerability assessment
-/crypto <file>              # Direct cryptographic attack
-/rev <binary>               # Direct reverse engineering
-/forensics <file>           # Direct forensic analysis
-/misc <file>                # Direct misc challenge
+/solve <challenge>          # Wizard classifies, then you invoke the matching skill
 /writeup <challenge-name>   # Generate solution writeup
 /ctftime                    # Find upcoming CTF competitions
 ```
+
+For an end-to-end autonomous run, drive the `ctf-autosolve` skill with `/loop`
+or `/goal` (see `HARNESS.md`). To work a single category by hand, let `wizard`
+classify (or just pick) and invoke the matching skill directly.
 
 ### Extended Thinking
 

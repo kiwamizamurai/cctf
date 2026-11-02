@@ -39,21 +39,18 @@ automation, writeup timing) and only touches authorized, in-scope targets.
 ## Quick Start
 
 ```bash
-# Wizard classifies challenge and routes to specialist
+# Wizard classifies the challenge; then invoke the matching specialist skill
 /solve <challenge>
-
-# Direct category commands
-/pwn <binary>               # Binary exploitation
-/web <url>                  # Web vulnerability assessment
-/crypto <file>              # Cryptographic attack
-/rev <binary>               # Reverse engineering
-/forensics <file>           # Forensic analysis
-/misc <file>                # Misc challenges (pyjail, encoding)
 
 # Documentation
 /writeup <challenge-name>   # Generate solution writeup
 /ctftime                    # Find upcoming CTF competitions
 ```
+
+For full automation, drive the `ctf-autosolve` skill with `/loop` or `/goal`
+(see the harness section above / `HARNESS.md`). Per-category work is handled by
+the specialist skills (binary-analysis, crypto-analysis, web-security, pyjail,
+forensics, networking, mobile-security, osint) — no separate commands needed.
 
 ## Output Styles
 
