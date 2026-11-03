@@ -3,5 +3,3 @@ declare module 'claude-code' {
     'ctf-harness-hud': { tick: number }
   }
 }
-
-export {}
